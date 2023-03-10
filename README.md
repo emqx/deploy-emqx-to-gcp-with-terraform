@@ -42,14 +42,14 @@ After applying successfully, it will output the following:
 
 ```bash
 Outputs:
-loadbalancer_public_ip = ${loadbalancer_public_ip}
+loadbalancer_ip = ${loadbalancer_ip}
 ```
 
 
 You can access different services with related ports
 ```bash
-Dashboard: ${loadbalancer_public_ip}:18083
-MQTT: ${loadbalancer_public_ip}:1883
+Dashboard: ${loadbalancer_ip}:18083
+MQTT: ${loadbalancer_ip}:1883
 ```
 
 ## Destroy

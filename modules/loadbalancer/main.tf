@@ -2,6 +2,10 @@ resource "google_compute_address" "public_ip" {
   name = "${var.namespace}-public-ip"
 }
 
+resource "google_compute_address" "private_ip" {
+  name = "${var.namespace}-private-ip"
+}
+
 resource "google_compute_http_health_check" "http_health_check" {
   name = "${var.namespace}-http-health-check"
 
@@ -24,5 +28,6 @@ resource "google_compute_forwarding_rule" "forwarding_rule" {
   port_range = var.ports[count.index]
   region     = var.region
 
-  ip_address = google_compute_address.public_ip.address
+  load_balancing_scheme = var.is_lb_external ? "EXTERNAL" : "INTERNAL"
+  ip_address = var.is_lb_external ? google_compute_address.public_ip.address : google_compute_address.private_ip.address
 }

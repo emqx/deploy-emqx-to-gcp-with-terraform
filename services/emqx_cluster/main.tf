@@ -44,6 +44,7 @@ module "emqx_lb" {
   source                                 = "../../modules/loadbalancer"
   namespace = var.namespace
   instances = module.emqx_cluster.instance_ids
+  is_lb_external = true
   ports = var.emqx_ports
   region = var.region
 }

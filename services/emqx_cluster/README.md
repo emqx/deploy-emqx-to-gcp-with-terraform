@@ -45,5 +45,5 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_loadbalancer_public_ip"></a> [loadbalancer\_public\_ip](#output\_loadbalancer\_public\_ip) | The public ip address for loadbalancer resource |
+| <a name="output_loadbalancer_ip"></a> [loadbalancer\_ip](#output\_loadbalancer\_ip) | The ip address for loadbalancer resource |
 <!-- END_TF_DOCS -->

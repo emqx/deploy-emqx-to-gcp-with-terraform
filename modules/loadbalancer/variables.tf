@@ -13,3 +13,7 @@ variable "region" {
 variable "ports" {
   type = list(string)
 }
+
+variable "is_lb_external" {
+  type = bool
+}

@@ -79,6 +79,11 @@ variable "credentials" {
   type = string
 }
 
+# variable "is_lb_external" {
+#   description = "(Required) LB is external or not"
+#   type = bool
+# }
+
 variable "emqx_lic" {
   description = "(Optional) the content of the license"
   type        = string
