@@ -1,8 +1,8 @@
 ## common
 
-region = "us-west1"
-zone    = "us-west1-c"
-project = "tf-demo-380106"
+region    = "us-west1"
+zone      = "us-west1-c"
+project   = "tf-demo-380106"
 namespace = "emqx"
 
 ## service account credentials
@@ -17,7 +17,7 @@ emqx_address_space = "10.0.0.0/16"
 ## vm
 
 emqx_instance_count = 3
-emqx_instance_type          = "e2-medium"
+emqx_instance_type  = "e2-medium"
 
 
 ## emqx package url

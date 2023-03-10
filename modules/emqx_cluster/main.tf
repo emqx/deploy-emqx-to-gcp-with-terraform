@@ -1,5 +1,5 @@
 locals {
-  public_ips = google_compute_instance.instance[*].network_interface.0.access_config.0.nat_ip
+  public_ips  = google_compute_instance.instance[*].network_interface.0.access_config.0.nat_ip
   private_ips = google_compute_instance.instance[*].network_interface.0.network_ip
 
   emqx_anchor     = element(local.private_ips, 0)
@@ -17,10 +17,10 @@ resource "tls_private_key" "ssh" {
 
 // Configure the GCE instance in a public subnet
 resource "google_compute_instance" "instance" {
-  count = var.instance_count
-  name = "${var.namespace}-vm-${count.index}"
+  count        = var.instance_count
+  name         = "${var.namespace}-vm-${count.index}"
   machine_type = var.instance_type
-  tags = var.tags
+  tags         = var.tags
 
   metadata = {
     ssh-keys = "${var.ssh_user}:${tls_private_key.ssh.public_key_openssh}"
@@ -29,12 +29,12 @@ resource "google_compute_instance" "instance" {
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2004-lts"
-      size = 20
+      size  = 20
     }
   }
 
   network_interface {
-    network = var.network
+    network    = var.network
     subnetwork = var.subnetwork
 
     access_config {

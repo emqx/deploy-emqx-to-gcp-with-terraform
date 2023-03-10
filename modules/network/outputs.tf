@@ -5,5 +5,5 @@ output "network" {
 
 output "subnetwork" {
   description = "the name of emqx subnetwork"
-  value = [for sn in google_compute_subnetwork.sn : sn.name]
+  value       = [for sn in google_compute_subnetwork.sn : sn.name]
 }
