@@ -89,3 +89,23 @@ variable "emqx_lic" {
   type        = string
   default     = ""
 }
+
+variable "common_name" {
+  description = "(Required) The common name of the certificate"
+  type        = string
+}
+
+variable "ca_common_name" {
+  description = "(Required) The common name of the CA certificate"
+  type        = string
+}
+
+variable "org" {
+  description = "(Required) The organization of the certificate"
+  type        = string
+}
+
+variable "enable_ssl_two_way" {
+  description = "(Required) Enable SSL two way or not"
+  type        = bool
+}

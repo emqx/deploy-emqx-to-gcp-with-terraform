@@ -15,6 +15,17 @@ module "emqx_network" {
   address_space = var.emqx_address_space
 }
 
+#######################################
+# emqx cluster modules
+#######################################
+
+module "self_signed_cert" {
+  source = "../../modules/self_signed_cert"
+
+  ca_common_name = var.ca_common_name
+  common_name    = var.common_name
+  org            = var.org
+}
 
 #######################################
 # emqx cluster modules
@@ -33,6 +44,11 @@ module "emqx_cluster" {
   subnetwork     = module.emqx_network.subnetwork[0]
   emqx_package   = var.emqx_package
   emqx_lic       = var.emqx_lic
+
+  enable_ssl_two_way = var.enable_ssl_two_way
+  key                = module.self_signed_cert.key
+  cert               = module.self_signed_cert.cert
+  ca                 = module.self_signed_cert.ca
 }
 
 

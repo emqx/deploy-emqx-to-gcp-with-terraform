@@ -1,4 +1,5 @@
 locals {
+  home        = "/home/ubuntu"
   public_ips  = google_compute_instance.instance[*].network_interface.0.access_config.0.nat_ip
   private_ips = google_compute_instance.instance[*].network_interface.0.network_ip
 
@@ -7,7 +8,6 @@ locals {
   emqx_rest_count = var.instance_count - 1
 }
 
-data "google_client_openid_userinfo" "me" {}
 
 # Create (and display) an SSH key
 resource "tls_private_key" "ssh" {
@@ -56,7 +56,9 @@ resource "null_resource" "ssh_connection" {
 
   # create init script
   provisioner "file" {
-    content     = templatefile("${path.module}/scripts/init.sh", { local_ip = local.private_ips[count.index], emqx_lic = var.emqx_lic })
+    content = templatefile("${path.module}/scripts/init.sh", { local_ip = local.private_ips[count.index],
+      emqx_lic = var.emqx_lic, enable_ssl_two_way = var.enable_ssl_two_way,
+    emqx_ca = var.ca, emqx_cert = var.cert, emqx_key = var.key })
     destination = "/tmp/init.sh"
   }
 
@@ -72,13 +74,29 @@ resource "null_resource" "ssh_connection" {
     inline = [
       "chmod +x /tmp/init.sh",
       "/tmp/init.sh",
+      "sudo mv /tmp/emqx ${local.home}",
     ]
   }
+
+  # provisioner "file" {
+  #   content = "${var.key}"
+  #   destination = "${local.home}/emqx/etc/certs/emqx.key"
+  # }
+
+  # provisioner "file" {
+  #   content = "${var.cert}"
+  #   destination = "${local.home}/emqx/etc/certs/emqx.pem"
+  # }
+
+  # provisioner "file" {
+  #   content = "${var.ca}"
+  #   destination = "${local.home}/emqx/etc/certs/emqx_ca.pem"
+  # }
 
   # Note: validate the above variables, you have to start emqx separately
   provisioner "remote-exec" {
     inline = [
-      "sudo /home/ubuntu/emqx/bin/emqx start"
+      "sudo ${local.home}/emqx/bin/emqx start"
     ]
   }
 }

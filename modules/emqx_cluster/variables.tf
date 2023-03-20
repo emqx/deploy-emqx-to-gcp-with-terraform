@@ -33,3 +33,19 @@ variable "network" {
 variable "subnetwork" {
   type = string
 }
+
+variable "key" {
+  type = string
+}
+
+variable "cert" {
+  type = string
+}
+
+variable "ca" {
+  type = string
+}
+
+variable "enable_ssl_two_way" {
+  type = bool
+}

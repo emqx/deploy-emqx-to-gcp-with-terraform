@@ -22,5 +22,11 @@ emqx_instance_type  = "e2-medium"
 
 ## emqx package url
 
-emqx_package = "https://www.emqx.com/en/downloads/enterprise/4.4.14/emqx-ee-4.4.14-otp24.3.4.2-1-ubuntu20.04-amd64.zip"
+emqx_package = "https://www.emqx.com/en/downloads/enterprise/4.4.16/emqx-ee-4.4.16-otp24.3.4.2-1-ubuntu20.04-amd64.zip"
 
+## ssl
+
+enable_ssl_two_way = false
+ca_common_name     = "RootCA"
+common_name        = "Server"
+org                = "EMQ"
