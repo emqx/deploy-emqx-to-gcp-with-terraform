@@ -21,7 +21,6 @@ Please refer to [terraform install doc](https://learn.hashicorp.com/tutorials/te
 ## Config gcp credentials
 You could follow this
 [guide](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started#adding-credentials)
-  * [x] 
 
 ## Deploy EMQX cluster
 ```bash
