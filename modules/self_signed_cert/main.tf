@@ -9,8 +9,8 @@ resource "tls_private_key" "ca" {
 resource "tls_self_signed_cert" "ca" {
   private_key_pem = tls_private_key.ca.private_key_pem
 
-  validity_period_hours = 24000
-  early_renewal_hours   = 720
+  validity_period_hours = var.validity_period_hours
+  early_renewal_hours   = var.early_renewal_hours
   is_ca_certificate     = true
 
   allowed_uses = [
@@ -23,7 +23,6 @@ resource "tls_self_signed_cert" "ca" {
     common_name  = var.ca_common_name
     organization = var.org
   }
-
 }
 
 ######################################
@@ -45,7 +44,7 @@ resource "tls_locally_signed_cert" "default" {
   ca_cert_pem        = tls_self_signed_cert.ca.cert_pem
 
 
-  validity_period_hours = 24000
+  validity_period_hours = var.validity_period_hours
 
   allowed_uses = [
     "key_encipherment",

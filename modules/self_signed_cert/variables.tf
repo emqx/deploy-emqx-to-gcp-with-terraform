@@ -12,3 +12,11 @@ variable "org" {
   description = "The organization of the certificate"
   type        = string
 }
+
+variable "validity_period_hours" {
+  type = number
+}
+
+variable "early_renewal_hours" {
+  type = number
+}

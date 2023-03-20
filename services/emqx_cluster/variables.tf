@@ -90,22 +90,36 @@ variable "emqx_lic" {
   default     = ""
 }
 
+# SSL/TLS
+#
 variable "common_name" {
-  description = "(Required) The common name of the certificate"
+  description = "(Optional) The common name of the certificate"
   type        = string
 }
 
 variable "ca_common_name" {
-  description = "(Required) The common name of the CA certificate"
+  description = "(Optional) The common name of the CA certificate"
   type        = string
 }
 
 variable "org" {
-  description = "(Required) The organization of the certificate"
+  description = "(Optional) The organization of the certificate"
   type        = string
 }
 
 variable "enable_ssl_two_way" {
   description = "(Required) Enable SSL two way or not"
   type        = bool
+}
+
+variable "validity_period_hours" {
+  description = "(Required) The validity period of the certificate"
+  type        = number
+  default     = 8760
+}
+
+variable "early_renewal_hours" {
+  description = "(Optional) The eraly renewal period of the certificate"
+  type        = number
+  default     = 720
 }

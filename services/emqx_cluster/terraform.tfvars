@@ -24,9 +24,11 @@ emqx_instance_type  = "e2-medium"
 
 emqx_package = "https://www.emqx.com/en/downloads/enterprise/4.4.16/emqx-ee-4.4.16-otp24.3.4.2-1-ubuntu20.04-amd64.zip"
 
-## ssl
+## SSL/TLS
 
 enable_ssl_two_way = false
 ca_common_name     = "RootCA"
 common_name        = "Server"
 org                = "EMQ"
+validity_period_hours = 8760
+early_renewal_hours   = 720

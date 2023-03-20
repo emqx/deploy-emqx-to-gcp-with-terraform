@@ -25,6 +25,8 @@ module "self_signed_cert" {
   ca_common_name = var.ca_common_name
   common_name    = var.common_name
   org            = var.org
+  early_renewal_hours   = var.early_renewal_hours
+  validity_period_hours = var.validity_period_hours
 }
 
 #######################################
@@ -45,6 +47,7 @@ module "emqx_cluster" {
   emqx_package   = var.emqx_package
   emqx_lic       = var.emqx_lic
 
+  # SSL/TLS
   enable_ssl_two_way = var.enable_ssl_two_way
   key                = module.self_signed_cert.key
   cert               = module.self_signed_cert.cert
