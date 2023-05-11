@@ -139,7 +139,7 @@ We welcome contributions from the community. Please submit your pull requests fo
 
 ## License
 
-This project is licensed under the terms of the [MIT License](https://opensource.org/license/mit).
+This project is licensed under the terms of the [MIT License](https://github.com/emqx/deploy-emqx-to-gcp-with-terraform/blob/main/LICENSE).
 
 
 ## Support
