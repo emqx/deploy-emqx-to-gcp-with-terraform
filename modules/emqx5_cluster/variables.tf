@@ -14,6 +14,10 @@ variable "instance_count" {
   type = number
 }
 
+variable "core_count" {
+  type = number
+}
+
 variable "instance_type" {
   type = string
 }
@@ -48,4 +52,8 @@ variable "ca" {
 
 variable "enable_ssl_two_way" {
   type = bool
+}
+
+variable "cookie" {
+  type = string
 }

@@ -3,11 +3,8 @@ locals {
   public_ips  = google_compute_instance.instance[*].network_interface.0.access_config.0.nat_ip
   private_ips = google_compute_instance.instance[*].network_interface.0.network_ip
 
-  emqx_anchor     = element(local.private_ips, 0)
-  emqx_rest       = slice(local.public_ips, 1, var.instance_count)
-  emqx_rest_count = var.instance_count - 1
+  private_ips_string = join(",", [for ip in local.private_ips : format("emqx@%s", ip)])
 }
-
 
 # Create (and display) an SSH key
 resource "tls_private_key" "ssh" {
@@ -43,7 +40,7 @@ resource "google_compute_instance" "instance" {
   }
 }
 
-resource "null_resource" "ssh_connection" {
+resource "null_resource" "emqx" {
   depends_on = [google_compute_instance.instance]
 
   count = var.instance_count
@@ -57,8 +54,8 @@ resource "null_resource" "ssh_connection" {
   # create init script
   provisioner "file" {
     content = templatefile("${path.module}/scripts/init.sh", { local_ip = local.private_ips[count.index],
-      emqx_lic = var.emqx_lic, enable_ssl_two_way = var.enable_ssl_two_way,
-    emqx_ca = var.ca, emqx_cert = var.cert, emqx_key = var.key })
+      emqx_lic = var.emqx_lic, enable_ssl_two_way = var.enable_ssl_two_way, emqx_ca = var.ca,
+    emqx_cert = var.cert, emqx_key = var.key, cookie = var.cookie, all_nodes = local.private_ips_string })
     destination = "/tmp/init.sh"
   }
 
@@ -78,44 +75,10 @@ resource "null_resource" "ssh_connection" {
     ]
   }
 
-  # provisioner "file" {
-  #   content = "${var.key}"
-  #   destination = "${local.home}/emqx/etc/certs/emqx.key"
-  # }
-
-  # provisioner "file" {
-  #   content = "${var.cert}"
-  #   destination = "${local.home}/emqx/etc/certs/emqx.pem"
-  # }
-
-  # provisioner "file" {
-  #   content = "${var.ca}"
-  #   destination = "${local.home}/emqx/etc/certs/emqx_ca.pem"
-  # }
-
   # Note: validate the above variables, you have to start emqx separately
   provisioner "remote-exec" {
     inline = [
       "sudo ${local.home}/emqx/bin/emqx start"
-    ]
-  }
-}
-
-resource "null_resource" "emqx_cluster" {
-  depends_on = [null_resource.ssh_connection]
-
-  count = local.emqx_rest_count
-
-  connection {
-    type        = "ssh"
-    host        = local.emqx_rest[count.index % local.emqx_rest_count]
-    user        = "ubuntu"
-    private_key = tls_private_key.ssh.private_key_pem
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "/home/ubuntu/emqx/bin/emqx_ctl cluster join emqx@${local.emqx_anchor}"
     ]
   }
 }

@@ -13,7 +13,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_emqx_cluster"></a> [emqx\_cluster](#module\_emqx\_cluster) | ../../modules/emqx_cluster | n/a |
+| <a name="module_emqx4_cluster"></a> [emqx4\_cluster](#module\_emqx4\_cluster) | ../../modules/emqx4_cluster | n/a |
+| <a name="module_emqx5_cluster"></a> [emqx5\_cluster](#module\_emqx5\_cluster) | ../../modules/emqx5_cluster | n/a |
 | <a name="module_emqx_lb"></a> [emqx\_lb](#module\_emqx\_lb) | ../../modules/loadbalancer | n/a |
 | <a name="module_emqx_network"></a> [emqx\_network](#module\_emqx\_network) | ../../modules/network | n/a |
 | <a name="module_self_signed_cert"></a> [self\_signed\_cert](#module\_self\_signed\_cert) | ../../modules/self_signed_cert | n/a |
@@ -30,15 +31,19 @@ No resources.
 | <a name="input_common_name"></a> [common\_name](#input\_common\_name) | (Optional) The common name of the certificate | `string` | n/a | yes |
 | <a name="input_credentials"></a> [credentials](#input\_credentials) | (Required) Service account credentials from GCP | `string` | n/a | yes |
 | <a name="input_early_renewal_hours"></a> [early\_renewal\_hours](#input\_early\_renewal\_hours) | (Optional) The eraly renewal period of the certificate | `number` | `720` | no |
+| <a name="input_emqx4_package"></a> [emqx4\_package](#input\_emqx4\_package) | (Required) The install package of emqx4 | `string` | `""` | no |
+| <a name="input_emqx5_package"></a> [emqx5\_package](#input\_emqx5\_package) | (Required) The install package of emqx5 | `string` | `""` | no |
 | <a name="input_emqx_address_space"></a> [emqx\_address\_space](#input\_emqx\_address\_space) | (Required) The address space that is used by the virtual network | `string` | n/a | yes |
+| <a name="input_emqx_cookie"></a> [emqx\_cookie](#input\_emqx\_cookie) | (Optional) The cookie of emqx | `string` | `"emqx_secret_cookie"` | no |
+| <a name="input_emqx_core_count"></a> [emqx\_core\_count](#input\_emqx\_core\_count) | (Required) The count of emqx core node | `number` | `1` | no |
 | <a name="input_emqx_instance_count"></a> [emqx\_instance\_count](#input\_emqx\_instance\_count) | (Required) The count of emqx node | `number` | n/a | yes |
 | <a name="input_emqx_instance_type"></a> [emqx\_instance\_type](#input\_emqx\_instance\_type) | (Required) The SKU which should be used for this Virtual Machine | `string` | n/a | yes |
 | <a name="input_emqx_lic"></a> [emqx\_lic](#input\_emqx\_lic) | (Optional) the content of the license | `string` | `""` | no |
-| <a name="input_emqx_package"></a> [emqx\_package](#input\_emqx\_package) | (Required) The install package of emqx | `string` | n/a | yes |
 | <a name="input_emqx_ports"></a> [emqx\_ports](#input\_emqx\_ports) | (Required) Ingress of emqx | `list(string)` | <pre>[<br>  "1883",<br>  "8883",<br>  "8083",<br>  "8084",<br>  "18083"<br>]</pre> | no |
-| <a name="input_enable_ssl_two_way"></a> [enable\_ssl\_two\_way](#input\_enable\_ssl\_two\_way) | (Required) Enable SSL two way or not | `bool` | n/a | yes |
-| <a name="input_firewall_ports"></a> [firewall\_ports](#input\_firewall\_ports) | (Required) Ingress of firewall | `list(string)` | <pre>[<br>  "22",<br>  "8081",<br>  "4370",<br>  "1883",<br>  "8883",<br>  "8083",<br>  "8084",<br>  "18083"<br>]</pre> | no |
+| <a name="input_enable_ssl_two_way"></a> [enable\_ssl\_two\_way](#input\_enable\_ssl\_two\_way) | (Optional) Enable SSL two way or not | `bool` | `false` | no |
+| <a name="input_firewall_ports"></a> [firewall\_ports](#input\_firewall\_ports) | (Required) Ingress of firewall | `list(string)` | <pre>[<br>  "22",<br>  "8081",<br>  "4370",<br>  "5370",<br>  "5369",<br>  "1883",<br>  "8883",<br>  "8083",<br>  "8084",<br>  "18083"<br>]</pre> | no |
 | <a name="input_gce_ssh_user"></a> [gce\_ssh\_user](#input\_gce\_ssh\_user) | (Required) The ssh user of GCE | `string` | `"ubuntu"` | no |
+| <a name="input_is_emqx5"></a> [is\_emqx5](#input\_is\_emqx5) | (Optional) Is emqx5 or not | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | (Required) The prefix of these resources | `string` | n/a | yes |
 | <a name="input_org"></a> [org](#input\_org) | (Optional) The organization of the certificate | `string` | n/a | yes |
 | <a name="input_project"></a> [project](#input\_project) | (Required) The project where the resources reside in | `string` | n/a | yes |

@@ -44,7 +44,9 @@ variable "subnet_conf" {
 variable "firewall_ports" {
   description = "(Required) Ingress of firewall"
   type        = list(string)
-  default     = ["22", "8081", "4370", "1883", "8883", "8083", "8084", "18083"]
+  # default     = ["22", "8081", "4370", "1883", "8883", "8083", "8084", "18083"]
+  # for emqx5
+  default = ["22", "8081", "4370", "5370", "5369", "1883", "8883", "8083", "8084", "18083"]
 }
 
 variable "emqx_ports" {
@@ -64,14 +66,27 @@ variable "emqx_instance_count" {
   type        = number
 }
 
+variable "emqx5_core_count" {
+  description = "(Required) The count of emqx core node"
+  type        = number
+  default     = 1
+}
+
 variable "emqx_instance_type" {
   description = "(Required) The SKU which should be used for this Virtual Machine"
   type        = string
 }
 
-variable "emqx_package" {
-  description = "(Required) The install package of emqx"
+variable "emqx4_package" {
+  description = "(Required) The install package of emqx4"
   type        = string
+  default     = ""
+}
+
+variable "emqx5_package" {
+  description = "(Required) The install package of emqx5"
+  type        = string
+  default     = ""
 }
 
 variable "credentials" {
@@ -108,8 +123,9 @@ variable "org" {
 }
 
 variable "enable_ssl_two_way" {
-  description = "(Required) Enable SSL two way or not"
+  description = "(Optional) Enable SSL two way or not"
   type        = bool
+  default     = false
 }
 
 variable "validity_period_hours" {
@@ -122,4 +138,16 @@ variable "early_renewal_hours" {
   description = "(Optional) The eraly renewal period of the certificate"
   type        = number
   default     = 720
+}
+
+variable "is_emqx5" {
+  description = "(Optional) Is emqx5 or not"
+  type        = bool
+  default     = false
+}
+
+variable "emqx_cookie" {
+  description = "(Optional) The cookie of emqx"
+  type        = string
+  default     = "emqx_secret_cookie"
 }
