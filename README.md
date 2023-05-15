@@ -1,5 +1,5 @@
 
-# Terraform EMQX on GCP
+# Deploy EMQX to GCP with Terraform
 
 This Terraform module is designed to deploy either EMQX or EMQX Enterprise on Google Cloud Platform (GCP). EMQX is a scalable and open-source MQTT broker that connects IoT devices.
 
