@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 BASE_DIR="/tmp"
 LIC="/tmp/emqx/etc/emqx.lic"
@@ -16,7 +16,7 @@ sudo sh -c "ulimit -n 1048576"
 echo 'fs.file-max = 1048576' | sudo tee -a /etc/sysctl.conf
 echo 'DefaultLimitNOFILE=1048576' | sudo tee -a /etc/systemd/system.conf
 
-sudo tee -a /etc/security/limits.conf << EOF
+sudo tee -a /etc/security/limits.conf <<EOF
 root      soft   nofile      1048576
 root      hard   nofile      1048576
 ubuntu    soft   nofile      1048576
@@ -82,17 +82,15 @@ sudo sed -i 's/## listener.ssl.external.hibernate_after = 5s/listener.ssl.extern
 sudo sed -i 's/^cluster\.discovery.*/cluster.discovery = static/' $BASE_DIR/emqx/etc/cluster.conf
 sudo sed -i 's/^## cluster\.static\.seeds.*/cluster.static.seeds = ${all_nodes}/' $BASE_DIR/emqx/etc/cluster.conf
 
-
-
 # if enable two way ssl
-if $enable_ssl_two_way ; then
-sudo sed -i 's/## listener.ssl.external.verify = verify_peer/listener.ssl.external.verify = verify_peer/g' $BASE_DIR/emqx/etc/listeners.conf
-sudo sed -i 's/## listener.ssl.external.fail_if_no_peer_cert = true/listener.ssl.external.fail_if_no_peer_cert = true/g' $BASE_DIR/emqx/etc/listeners.conf
+if $enable_ssl_two_way; then
+	sudo sed -i 's/## listener.ssl.external.verify = verify_peer/listener.ssl.external.verify = verify_peer/g' $BASE_DIR/emqx/etc/listeners.conf
+	sudo sed -i 's/## listener.ssl.external.fail_if_no_peer_cert = true/listener.ssl.external.fail_if_no_peer_cert = true/g' $BASE_DIR/emqx/etc/listeners.conf
 fi
 
 # create license file
 if [ -n "${emqx_lic}" ]; then
-sudo cat > $LIC<<EOF
+	sudo cat >$LIC <<EOF
 ${emqx_lic}
 EOF
 fi

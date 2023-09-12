@@ -1,3 +1,44 @@
+locals {
+  package_url = var.is_emqx5 ? var.emqx5_package : var.emqx4_package
+
+}
+
+#######################################
+# check package
+#######################################
+
+resource "null_resource" "check_url" {
+  triggers = {
+    package = local.package_url
+  }
+
+  # Execute a local script
+  provisioner "local-exec" {
+    command = <<EOT
+      #!/bin/bash
+      set -e
+
+      # Define the URL to check
+      url="${local.package_url}"
+
+      # Check if the URL ends with tar.gz or zip
+      if [[ "$url" =~ ubuntu20.04-amd64\.(zip|tar\.gz)$ ]]; then
+        echo "URL suffix is valid (ubuntu20.04-amd64.tar.gz or ubuntu20.04-amd64.zip)."
+
+        # Attempt to download the package
+        if curl -fsS --head "$url" > /dev/null; then
+          echo "Package can be downloaded."
+        else
+          echo "Package download failed."
+          exit 1
+        fi
+      else
+        echo "Invalid URL suffix. URL should end with ubuntu20.04-amd64.tar.gz or ubuntu20.04-amd64.zip."
+        exit 1
+      fi
+    EOT
+  }
+}
 
 #######################################
 # network modules
@@ -13,6 +54,7 @@ module "emqx_network" {
   ports         = var.firewall_ports
   target_tags   = var.target_tags
   address_space = var.emqx_address_space
+  depends_on = [null_resource.check_url]
 }
 
 #######################################
@@ -27,6 +69,7 @@ module "self_signed_cert" {
   org                   = var.org
   early_renewal_hours   = var.early_renewal_hours
   validity_period_hours = var.validity_period_hours
+  depends_on = [null_resource.check_url]
 }
 
 #######################################
@@ -55,6 +98,7 @@ module "emqx4_cluster" {
   key                = module.self_signed_cert.key
   cert               = module.self_signed_cert.cert
   ca                 = module.self_signed_cert.ca
+  depends_on = [null_resource.check_url]
 }
 
 
@@ -85,6 +129,7 @@ module "emqx5_cluster" {
   key                = module.self_signed_cert.key
   cert               = module.self_signed_cert.cert
   ca                 = module.self_signed_cert.ca
+  depends_on = [null_resource.check_url]
 }
 
 
@@ -99,4 +144,5 @@ module "emqx_lb" {
   is_lb_external = true
   ports          = var.emqx_ports
   region         = var.region
+  depends_on = [null_resource.check_url]
 }
